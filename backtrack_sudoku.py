@@ -1,4 +1,6 @@
-from sudoku_tools import possible_entries, solved_check, print_grid
+from sudoku_tools import possible_entries, print_grid
+
+GRID_SIDE_LENGTH = 9  # side length
 
 
 def check(grid, row, col, value) -> bool:
@@ -19,8 +21,8 @@ def unravel(idx) -> tuple:
     :param int idx:
     :return: (row, column)
     """
-    i = idx // 9
-    j = idx % 9
+    i = idx // GRID_SIDE_LENGTH
+    j = idx % GRID_SIDE_LENGTH
     return i, j
 
 
@@ -56,7 +58,7 @@ flat_idx = 0  # flattened array index of a current cell
 steps = 0  # how many steps is done
 value = 0  # value to write in cell
 
-while not solved_check(sudoku_grid):
+while flat_idx < GRID_SIDE_LENGTH ** 2:
     steps += 1
     row, col = unravel(flat_idx)
     if sudoku_grid[row][col] != 0 and flat_idx in given:  # skip if a given cell
