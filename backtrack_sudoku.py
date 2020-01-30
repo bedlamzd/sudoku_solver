@@ -59,23 +59,25 @@ steps = 0  # how many steps is done
 value = 0  # value to write in cell
 
 while flat_idx < GRID_SIDE_LENGTH ** 2:
-    steps += 1
     row, col = unravel(flat_idx)
     if sudoku_grid[row][col] != 0 and flat_idx in given:  # skip if a given cell
+        steps += 1
         flat_idx += 1
         continue
-    value += 1
-    if not (1 <= value <= 9):  # check if all values have been tried (value becomes > 9)
+    for value in range(value, 10):
+        steps += 1
+        if check(sudoku_grid, row, col, value):
+            sudoku_grid[row][col] = value
+            visited.append(flat_idx)
+            value = 0
+            flat_idx += 1
+            break
+    else:
+        steps += 1
         sudoku_grid[row][col] = 0
         flat_idx = visited.pop()
         row, col = unravel(flat_idx)
-        value = sudoku_grid[row][col]
-        continue
-    if check(sudoku_grid, row, col, value):  # if value is possible in a cell then fill it in
-        sudoku_grid[row][col] = value
-        visited.append(flat_idx)
-        value = 0
-        flat_idx += 1
+        value = sudoku_grid[row][col] + 1
 
 print(f'Steps done: {steps:5}')
 print_grid(sudoku_grid)
