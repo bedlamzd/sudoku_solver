@@ -1,5 +1,5 @@
-candidates = {1, 2, 3, 4, 5, 6, 7, 8, 9}  # set of possible values
-
+CANDIDATES = {1, 2, 3, 4, 5, 6, 7, 8, 9}  # set of possible values
+GRID_SIDE_LENGTH = 9  # side length
 
 def test_grid() -> list:
     """
@@ -32,18 +32,18 @@ def print_grid(grid):
 
 
 def possible_in_row(grid, row) -> set:
-    return candidates - set(grid[row])
+    return CANDIDATES - set(grid[row])
 
 
 def possible_in_col(grid, col) -> set:
     s = set()
-    for i in range(9):
+    for i in range(GRID_SIDE_LENGTH):
         s.add(grid[i][col])
-    return candidates - s
+    return CANDIDATES - s
 
 
 def possible_in_sqr(grid, row, col) -> set:
-    first = [0, 1, 2]
+    first = [0, 1, 2] # rows/columns of cells which belong to rows/columns of squares
     second = [3, 4, 5]
     third = [6, 7, 8]
     inc = [first, second, third]
@@ -56,7 +56,7 @@ def possible_in_sqr(grid, row, col) -> set:
     for i in row:
         for j in col:
             s.add(grid[i][j])
-    return candidates - s
+    return CANDIDATES - s
 
 
 def possible_entries(grid, row, col) -> set:
@@ -83,8 +83,8 @@ def solved_check(grid) -> bool:
     :param list grid:
     :return: True or False
     """
-    for row in range(9):
-        for col in range(9):
+    for row in range(GRID_SIDE_LENGTH):
+        for col in range(GRID_SIDE_LENGTH):
             if grid[row][col] == 0:
                 return False
     return True
