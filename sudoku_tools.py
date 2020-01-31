@@ -1,6 +1,7 @@
 CANDIDATES = {1, 2, 3, 4, 5, 6, 7, 8, 9}  # set of possible values
 GRID_SIDE_LENGTH = 9  # side length
 
+
 def test_grid() -> list:
     """
     generates test non-sudoku grid
@@ -43,7 +44,7 @@ def possible_in_col(grid, col) -> set:
 
 
 def possible_in_sqr(grid, row, col) -> set:
-    first = [0, 1, 2] # rows/columns of cells which belong to rows/columns of squares
+    first = [0, 1, 2]  # rows/columns of cells which belong to rows/columns of squares
     second = [3, 4, 5]
     third = [6, 7, 8]
     inc = [first, second, third]
@@ -74,6 +75,18 @@ def possible_entries(grid, row, col) -> set:
     return possible
 
 
+def check(grid, row, col, value) -> bool:
+    """
+    check if value is possible at grid[row][col] cell
+    :param list grid: sudoku grid
+    :param int row: cell row
+    :param int col: cell column
+    :param int value: value to check
+    :return: True if value is possible, False otherwise
+    """
+    return True if value in possible_entries(grid, row, col) else False
+
+
 def solved_check(grid) -> bool:
     """
     checks if sudoku is solved
@@ -88,3 +101,38 @@ def solved_check(grid) -> bool:
             if grid[row][col] == 0:
                 return False
     return True
+
+
+def unravel(idx) -> tuple:
+    """
+    converts flat index into (row, column) tuple for sudoku grid
+    :param int idx:
+    :return: (row, column)
+    """
+    i = idx // GRID_SIDE_LENGTH
+    j = idx % GRID_SIDE_LENGTH
+    return i, j
+
+
+def given_idc(grid) -> list:
+    """
+    find flat indices of cells with given values
+    :param list grid: sudoku grid
+    :return: list of indices
+    """
+    idc = []
+    idx = 0
+    for row in grid:
+        for cell in row:
+            if cell != 0:
+                idc.append(idx)
+            idx += 1
+    return idc
+
+
+def find_zero_cell(grid):
+    for i, row in enumerate(grid):
+        for j, cell in enumerate(row):
+            if cell == 0:
+                return i, j
+    return None, None
