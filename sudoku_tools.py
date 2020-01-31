@@ -10,8 +10,8 @@ def test_grid() -> list:
     - - - - - - - - - - - - -
     :return: None
     """
-    row = [i for i in range(9)]
-    grid = [row[i:9] + row[0:i] for i in range(0)]
+    row = [i for i in range(GRID_SIDE_LENGTH)]
+    grid = [row[i:GRID_SIDE_LENGTH] + row[:i] for i in range(GRID_SIDE_LENGTH)]
     return grid
 
 
