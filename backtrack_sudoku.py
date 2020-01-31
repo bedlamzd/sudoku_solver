@@ -1,4 +1,5 @@
 from sudoku_tools import possible_entries, print_grid
+from copy import deepcopy
 
 GRID_SIDE_LENGTH = 9  # side length
 
@@ -42,6 +43,29 @@ def given_idc(grid) -> list:
     return idc
 
 
+def find_zero_cell(grid):
+    for i, row in enumerate(grid):
+        for j, cell in enumerate(row):
+            if cell == 0:
+                return i, j
+    return None, None
+
+
+def backtrack_solve(grid, *, calls=0):
+    calls += 1
+    new_grid = deepcopy(grid) # copy grid to avoid changes in the original
+    i, j = find_zero_cell(new_grid)
+    if i is None: return True, new_grid, calls  # if no zero cells then sudoku is solved
+    for value in possible_entries(new_grid, i, j):
+        new_grid[i][j] = value
+        solved, new_grid, calls = backtrack_solve(new_grid, calls=calls)
+        if not solved:
+            new_grid[i][j] = 0
+        else:
+            return True, new_grid, calls
+    return False, new_grid, calls  # if no value fit, then backtrack
+
+
 sudoku_grid = [[5, 0, 0, 0, 0, 0, 7, 0, 9],
                [0, 4, 0, 9, 2, 0, 0, 6, 0],
                [7, 6, 0, 0, 0, 0, 0, 3, 0],
@@ -52,32 +76,7 @@ sudoku_grid = [[5, 0, 0, 0, 0, 0, 7, 0, 9],
                [0, 0, 0, 7, 0, 4, 2, 0, 0],
                [0, 9, 0, 0, 0, 1, 0, 0, 0]]
 
-given = given_idc(sudoku_grid)  # list of indices of given values
-visited = []  # list of indices of visited cells
-flat_idx = 0  # flattened array index of a current cell
-steps = 0  # how many steps is done
-value = 0  # value to write in cell
+_, solved_grid, calls = backtrack_solve(sudoku_grid)
 
-while flat_idx < GRID_SIDE_LENGTH ** 2:
-    row, col = unravel(flat_idx)
-    if sudoku_grid[row][col] != 0 and flat_idx in given:  # skip if a given cell
-        steps += 1
-        flat_idx += 1
-        continue
-    for value in range(value, 10):
-        steps += 1
-        if check(sudoku_grid, row, col, value):
-            sudoku_grid[row][col] = value
-            visited.append(flat_idx)
-            value = 0
-            flat_idx += 1
-            break
-    else:
-        steps += 1
-        sudoku_grid[row][col] = 0
-        flat_idx = visited.pop()
-        row, col = unravel(flat_idx)
-        value = sudoku_grid[row][col] + 1
-
-print(f'Steps done: {steps:5}')
-print_grid(sudoku_grid)
+print(f'Steps done: {calls:5}')
+print_grid(solved_grid)
