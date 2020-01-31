@@ -9,7 +9,7 @@ def test_grid() -> list:
     | 2 3 4 | 5 6 7 | 8 9 0 |
     | 3 4 5 | 6 7 8 | 9 0 1 |
     - - - - - - - - - - - - -
-    :return: None
+    :return: 9x9 matrix
     """
     row = [i for i in range(GRID_SIDE_LENGTH)]
     grid = [row[i:GRID_SIDE_LENGTH] + row[:i] for i in range(GRID_SIDE_LENGTH)]
