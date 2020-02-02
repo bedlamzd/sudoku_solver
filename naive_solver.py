@@ -1,15 +1,6 @@
 from copy import deepcopy
 from sudoku_tools import possible_entries, print_grid, GRID_SIDE_LENGTH, valid_solution
 
-sudoku_grid = [[5, 0, 0, 0, 0, 0, 7, 0, 9],
-               [0, 4, 0, 9, 2, 0, 0, 6, 0],
-               [7, 6, 0, 0, 0, 0, 0, 3, 0],
-               [0, 0, 6, 0, 1, 5, 0, 0, 0],
-               [0, 8, 1, 0, 7, 0, 4, 0, 0],
-               [9, 0, 0, 6, 0, 0, 0, 0, 8],
-               [0, 0, 4, 2, 6, 0, 0, 0, 1],
-               [0, 0, 0, 7, 0, 4, 2, 0, 0],
-               [0, 9, 0, 0, 0, 1, 0, 0, 0]]
 
 def naive_solver(grid) -> tuple:
     """

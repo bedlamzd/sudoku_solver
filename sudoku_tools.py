@@ -144,7 +144,12 @@ def given_idc(grid) -> list:
     return idc
 
 
-def find_zero_cell(grid):
+def find_zero_cell(grid) -> tuple:
+    """
+    find first zero cell in a grid
+    :param list grid: sudoku grid
+    :return: indices (i, j) or (None, None) if no zero cell
+    """
     for i, row in enumerate(grid):
         for j, cell in enumerate(row):
             if cell == 0:

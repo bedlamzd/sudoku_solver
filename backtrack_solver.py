@@ -1,7 +1,6 @@
 from sudoku_tools import possible_entries, print_grid, find_zero_cell
 from copy import deepcopy
 
-GRID_SIDE_LENGTH = 9  # side length
 
 def backtrack_solver(grid, *, calls=0):
     calls += 1
