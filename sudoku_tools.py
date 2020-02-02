@@ -33,13 +33,15 @@ def print_grid(grid):
     print()
 
 
-def possible_in_row(grid, row) -> set:
-    return CANDIDATES - set(grid[row])
+def possible_in_row(grid, row, col) -> set:
+    return CANDIDATES - set(grid[row][:col] + grid[row][col + 1:])
 
 
-def possible_in_col(grid, col) -> set:
+def possible_in_col(grid, row, col) -> set:
     s = set()
     for i in range(GRID_SIDE_LENGTH):
+        if i == row:
+            continue
         s.add(grid[i][col])
     return CANDIDATES - s
 
@@ -49,14 +51,17 @@ def possible_in_sqr(grid, row, col) -> set:
     second = [3, 4, 5]
     third = [6, 7, 8]
     inc = [first, second, third]
+    rows, cols = 0, 0
     for i in inc:
         if row in i:
-            row = i
+            rows = i
         if col in i:
-            col = i
+            cols = i
     s = set()
-    for i in row:
-        for j in col:
+    for i in rows:
+        for j in cols:
+            if [i, j] == [row, col]:
+                continue
             s.add(grid[i][j])
     return CANDIDATES - s
 
@@ -69,8 +74,8 @@ def possible_entries(grid, row, col) -> set:
     :param int col: column index
     :return: set of possible values in the cell
     """
-    in_row = possible_in_row(grid, row)
-    in_col = possible_in_col(grid, col)
+    in_row = possible_in_row(grid, row, col)
+    in_col = possible_in_col(grid, row, col)
     in_sqr = possible_in_sqr(grid, row, col)
     possible = in_row & in_col & in_sqr
     return possible
