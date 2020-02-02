@@ -30,6 +30,7 @@ def print_grid(grid):
             if (j + 1) % 3 == 0: print('|', end=' ')
         print()
         if (i + 1) % 3 == 0: print('- ' * 13)
+    print()
 
 
 def possible_in_row(grid, row) -> set:
