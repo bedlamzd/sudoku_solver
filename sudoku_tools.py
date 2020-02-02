@@ -109,6 +109,16 @@ def solved_check(grid) -> bool:
     return True
 
 
+def ravel(idx) -> int:
+    """
+    converts coordinate index (i, j) into flat index for sudoku grid
+    :param tuple idx: (row, col) tuple
+    :return: flat index
+    """
+    idx = GRID_SIDE_LENGTH * idx[0] + idx[1]
+    return idx
+
+
 def unravel(idx) -> tuple:
     """
     converts flat index into (row, column) tuple for sudoku grid
