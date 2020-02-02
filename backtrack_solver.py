@@ -3,15 +3,14 @@ from copy import deepcopy
 
 GRID_SIDE_LENGTH = 9  # side length
 
-
-def backtrack_solve(grid, *, calls=0):
+def backtrack_solver(grid, *, calls=0):
     calls += 1
     new_grid = deepcopy(grid)  # copy grid to avoid changes in the original
     i, j = find_zero_cell(new_grid)
     if i is None: return True, new_grid, calls  # if no zero cells then sudoku is solved
     for value in possible_entries(new_grid, i, j):
         new_grid[i][j] = value
-        solved, new_grid, calls = backtrack_solve(new_grid, calls=calls)
+        solved, new_grid, calls = backtrack_solver(new_grid, calls=calls)
         if not solved:
             new_grid[i][j] = 0
         else:
