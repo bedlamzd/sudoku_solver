@@ -93,18 +93,16 @@ def check(grid, row, col, value) -> bool:
     return True if value in possible_entries(grid, row, col) else False
 
 
-def solved_check(grid) -> bool:
+def valid_solution(grid) -> bool:
     """
-    checks if sudoku is solved
-
-    goes through each cell and if empty place encountered returns False
-    if not - returns True
-    :param list grid:
-    :return: True or False
+    checks if sudoku is properly solved
+    i.e. no empty cells and no mistakes
+    :param list grid: sudoku grid
+    :return: True/False
     """
-    for row in range(GRID_SIDE_LENGTH):
-        for col in range(GRID_SIDE_LENGTH):
-            if grid[row][col] == 0:
+    for i, row in enumerate(grid):
+        for j, cell in enumerate(row):
+            if not check(grid, i, j, cell) or cell == 0:
                 return False
     return True
 
